@@ -26,6 +26,7 @@ class BudgetGenerator {
         this.bindEvents();
         this.setupConditionalFields();
         this.setupThemeToggle();
+        this.setupPriceTypeToggle();
         this.updateRoomOptions();
         this.setDefaultDates();
     }
@@ -52,8 +53,8 @@ class BudgetGenerator {
         document.getElementById('copyBtn').addEventListener('click', () => this.copyToClipboard());
         
         // Date change events
-        document.getElementById('checkin').addEventListener('change', () => this.updateRoomOptions());
-        document.getElementById('checkout').addEventListener('change', () => this.updateRoomOptions());
+        document.getElementById('checkin').addEventListener('change', () => this.handleCheckinChange());
+        document.getElementById('checkout').addEventListener('change', () => this.handleCheckoutChange());
         
         // Input change events that affect room selection
         document.getElementById('adults').addEventListener('input', () => this.updateRoomOptions());
@@ -64,13 +65,78 @@ class BudgetGenerator {
         document.getElementById('includePet').addEventListener('change', () => this.updateRoomOptions());
         
         // Price change events
-        document.getElementById('dailyRate').addEventListener('input', () => this.updateTotal());
+        document.getElementById('priceValue').addEventListener('input', () => this.updateTotal());
         document.getElementById('selectedRoom').addEventListener('change', () => this.updateTotal());
         document.getElementById('extraBedPrice').addEventListener('input', () => this.updateTotal());
         document.getElementById('petPrice').addEventListener('input', () => this.updateTotal());
         document.getElementById('petQuantity').addEventListener('input', () => this.updateTotal());
         document.getElementById('earlyPrice').addEventListener('input', () => this.updateTotal());
         document.getElementById('latePrice').addEventListener('input', () => this.updateTotal());
+    }
+    
+    /**
+     * Configura o toggle entre valor da diária e valor total
+     */
+    setupPriceTypeToggle() {
+        const dailyRadio = document.getElementById('priceTypeDaily');
+        const totalRadio = document.getElementById('priceTypeTotal');
+        const priceLabel = document.getElementById('priceLabel');
+        const priceInput = document.getElementById('priceValue');
+        
+        dailyRadio.addEventListener('change', () => {
+            if (dailyRadio.checked) {
+                priceLabel.textContent = 'Valor da Diária (R$)';
+                priceInput.placeholder = '150,00';
+                this.updateTotal();
+            }
+        });
+        
+        totalRadio.addEventListener('change', () => {
+            if (totalRadio.checked) {
+                priceLabel.textContent = 'Valor Total (R$)';
+                priceInput.placeholder = '300,00';
+                this.updateTotal();
+            }
+        });
+    }
+    
+    /**
+     * Manipula mudança na data de entrada
+     */
+    handleCheckinChange() {
+        const checkinDate = new Date(document.getElementById('checkin').value);
+        const checkoutInput = document.getElementById('checkout');
+        
+        if (checkinDate) {
+            // Define checkout para o dia seguinte
+            const nextDay = new Date(checkinDate);
+            nextDay.setDate(nextDay.getDate() + 1);
+            checkoutInput.valueAsDate = nextDay;
+            
+            // Define data mínima para checkout
+            checkoutInput.min = document.getElementById('checkin').value;
+        }
+        
+        this.updateRoomOptions();
+    }
+    
+    /**
+     * Manipula mudança na data de saída
+     */
+    handleCheckoutChange() {
+        const checkinDate = new Date(document.getElementById('checkin').value);
+        const checkoutDate = new Date(document.getElementById('checkout').value);
+        
+        // Verifica se checkout é anterior ao checkin
+        if (checkoutDate <= checkinDate) {
+            this.showCustomModal('A data de saída deve ser posterior à data de entrada.');
+            // Corrige automaticamente
+            const nextDay = new Date(checkinDate);
+            nextDay.setDate(nextDay.getDate() + 1);
+            document.getElementById('checkout').valueAsDate = nextDay;
+        }
+        
+        this.updateRoomOptions();
     }
     
     /**
@@ -151,6 +217,22 @@ class BudgetGenerator {
         
         const diffTime = Math.abs(checkout - checkin);
         return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    }
+    
+    /**
+     * Obtém o valor da diária baseado no tipo selecionado
+     */
+    getDailyRate() {
+        const priceType = document.querySelector('input[name="priceType"]:checked').value;
+        const priceValue = parseFloat(document.getElementById('priceValue').value) || 0;
+        const nights = this.calculateNights();
+        
+        if (priceType === 'daily') {
+            return priceValue;
+        } else {
+            // Valor total dividido pelo número de noites
+            return nights > 0 ? priceValue / nights : 0;
+        }
     }
     
     /**
@@ -302,7 +384,7 @@ class BudgetGenerator {
      */
     updateTotal() {
         const nights = this.calculateNights();
-        const dailyRate = parseFloat(document.getElementById('dailyRate').value) || 0;
+        const dailyRate = this.getDailyRate();
         let total = nights * dailyRate;
         
         // Adiciona custos de camas extras
@@ -417,7 +499,7 @@ class BudgetGenerator {
      * Gera o orçamento
      */
     async generateBudget() {
-        const requiredFields = ['checkin', 'checkout', 'adults', 'dailyRate', 'selectedRoom'];
+        const requiredFields = ['checkin', 'checkout', 'adults', 'priceValue', 'selectedRoom'];
         const missingFields = requiredFields.filter(field => !document.getElementById(field).value);
         
         if (missingFields.length > 0) {
@@ -450,7 +532,7 @@ class BudgetGenerator {
             checkin: formData.get('checkin'),
             checkout: formData.get('checkout'),
             adults: parseInt(formData.get('adults')) || 0,
-            dailyRate: parseFloat(formData.get('dailyRate')) || 0,
+            dailyRate: this.getDailyRate(),
             selectedRoom: formData.get('selectedRoom'),
             includeChildren: document.getElementById('includeChildren').checked,
             children: parseInt(formData.get('children')) || 0,
@@ -466,7 +548,8 @@ class BudgetGenerator {
             earlyPrice: parseFloat(formData.get('earlyPrice')) || 0,
             lateCheckout: document.getElementById('lateCheckout').checked,
             lateHour: formData.get('lateHour'),
-            latePrice: parseFloat(formData.get('latePrice')) || 0
+            latePrice: parseFloat(formData.get('latePrice')) || 0,
+            additionalInfo: formData.get('additionalInfo') || ''
         };
         
         data.nights = this.calculateNights();
@@ -563,6 +646,11 @@ class BudgetGenerator {
         }
         markdown += `💵 *Total:* ${data.nights} ${nightTotalText}, R$ ${data.totalPrice.toFixed(2).replace('.', ',')} para ${totalPeopleText}.\n\n`;
         
+        // Informações adicionais (se preenchido)
+        if (data.additionalInfo.trim()) {
+            markdown += `${data.additionalInfo.trim()}\n\n`;
+        }
+        
         // Informações finais
         markdown += '💳 *Formas de pagamento:* Sinal de 50% no ato da reserva e o restante na chegada.\n\n';
         markdown += '☕ Café da manhã incluso.\n';
@@ -611,6 +699,11 @@ class BudgetGenerator {
             document.querySelectorAll('.conditional-field').forEach(field => {
                 field.classList.remove('active');
             });
+            
+            // Reset radio button para diária
+            document.getElementById('priceTypeDaily').checked = true;
+            document.getElementById('priceLabel').textContent = 'Valor da Diária (R$)';
+            document.getElementById('priceValue').placeholder = '150,00';
             
             this.setDefaultDates();
             document.getElementById('adults').value = '2';

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajuda e Changelog - Gerador de Orçamento</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <svg class="light-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <circle cx="10" cy="10" r="3" stroke="#64748b" stroke-width="2"/>
+                    <path d="M10 1v2m0 14v2M19 10h-2M5 10H3m13.66-5.66l-1.42 1.42M6.76 14.24l-1.42 1.42m11.32 0l-1.42-1.42M6.76 5.76L5.34 4.34" stroke="#64748b" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <svg class="dark-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" style="display: none;">
+                    <path d="M19 12a8 8 0 01-11-11 8 8 0 1011 11z" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            
+            <!-- Navigation -->
+            <div class="navigation">
+                <a href="index.html" class="nav-btn secondary">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M6 2L2 6l4 4m0-8l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Voltar ao Gerador
+                </a>
+            </div>
+            
+            <div class="login-header">
+                <div class="logo">
+                    <svg fill="#6366F1" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="36px" height="36px" viewBox="-23.11 -23.11 277.30 277.30" xml:space="preserve" stroke="#6366F1" stroke-width="0.9243080000000001"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.46215400000000006"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M7.168,189.811h216.646c0.032,0,0.074,0,0.093,0c3.967,0,7.169-3.206,7.169-7.168c0-0.411-0.028-0.817-0.099-1.209 C230.353,120.757,182.688,71.169,122.8,67.41l0.149-7.437c8.284-3.059,14.244-10.963,14.244-20.302 c0-11.966-9.736-21.702-21.702-21.702c-11.967,0-21.702,9.736-21.702,21.702c0,9.544,6.237,17.583,14.815,20.479l-0.145,7.234 C48.041,71.036,0,121.321,0,182.643C0,186.604,3.211,189.811,7.168,189.811z M108.127,39.666c0-4.062,3.302-7.364,7.365-7.364 c4.061,0,7.364,3.302,7.364,7.364c0,4.063-3.304,7.37-7.364,7.37C111.429,47.036,108.127,43.733,108.127,39.666z M115.492,81.488 c53.368,0,97.215,41.537,100.902,93.986H14.591C18.276,123.024,62.124,81.488,115.492,81.488z"></path> <path d="M128.933,94.922c-3.958,0-7.169,3.207-7.169,7.169s3.211,7.168,7.169,7.168c24.959,0,50.386,25.429,50.386,50.393 c0,3.958,3.211,7.169,7.168,7.169c3.958,0,7.169-3.211,7.169-7.169C193.646,126.376,162.19,94.922,128.933,94.922z"></path> <path d="M7.168,213.108h216.646c3.957,0,7.168-3.206,7.168-7.168c0-3.963-3.211-7.169-7.168-7.169H7.168 c-3.958,0-7.168,3.206-7.168,7.169C0,209.902,3.211,213.108,7.168,213.108z"></path> </g> </g> </g></svg>
+                </div>
+                <h1>Ajuda & Changelog</h1>
+                <p>Documentação e histórico de atualizações</p>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="help">📖 Como Usar</button>
+                <button class="tab-btn" data-tab="changelog">📝 Changelog</button>
+            </div>
+            
+            <!-- Help Content -->
+            <div class="tab-content active" id="help">
+                <div class="help-section">
+                    <h2>🚀 Como Usar o Sistema</h2>
+                    <p>Este gerador de orçamentos foi criado para facilitar a criação de propostas profissionais para pousadas via WhatsApp.</p>
+                </div>
+                
+                <div class="help-section">
+                    <h3>📅 Configuração Básica</h3>
+                    <div class="help-item">
+                        <strong>1. Datas:</strong>
+                        <ul>
+                            <li>Selecione a data de entrada</li>
+                            <li>A data de saída será ajustada automaticamente para o dia seguinte</li>
+                            <li>O sistema calcula automaticamente o número de diárias</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="help-item">
+                        <strong>2. Hóspedes:</strong>
+                        <ul>
+                            <li>Informe o número de adultos (obrigatório)</li>
+                            <li>Opcionalmente, inclua crianças cortesia (não pagam)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="help-section">
+                    <h3>💰 Valores</h3>
+                    <div class="help-item">
+                        <strong>Tipo de Valor:</strong>
+                        <ul>
+                            <li><strong>Valor da Diária:</strong> Informe o valor por noite</li>
+                            <li><strong>Valor Total:</strong> Informe o valor total da estadia (será dividido pelas noites automaticamente)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="help-item">
+                        <strong>Extras Opcionais:</strong>
+                        <ul>
+                            <li><strong>Colchões Extras:</strong> Para acomodar mais pessoas</li>
+                            <li><strong>Pets:</strong> Taxa adicional por animal</li>
+                            <li><strong>Early Check-in:</strong> Entrada antecipada</li>
+                            <li><strong>Late Check-out:</strong> Saída tardia</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="help-section">
+                    <h3>🏨 Seleção de Quartos</h3>
+                    <div class="help-item">
+                        <p>O sistema sugere automaticamente os melhores quartos baseado em:</p>
+                        <ul>
+                            <li>Número de adultos + camas extras</li>
+                            <li>Presença de crianças cortesia</li>
+                            <li>Presença de pets (exclui quartos coletivos)</li>
+                            <li>Disponibilidade dos quartos</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="help-section">
+                    <h3>✨ Funcionalidades Extras</h3>
+                    <div class="help-item">
+                        <ul>
+                            <li><strong>Informações Adicionais:</strong> Campo livre para texto personalizado</li>
+                            <li><strong>Diária Média:</strong> Marque se o valor informado é uma média</li>
+                            <li><strong>Modo Escuro:</strong> Alternação automática baseada no sistema</li>
+                            <li><strong>Cópia Rápida:</strong> Botão para copiar o orçamento formatado</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="help-section">
+                    <h3>📱 Formato do Orçamento</h3>
+                    <div class="help-item">
+                        <p>O orçamento gerado inclui:</p>
+                        <ul>
+                            <li>Datas de check-in e check-out</li>
+                            <li>Período de permanência</li>
+                            <li>Detalhes do quarto selecionado</li>
+                            <li>Capacidade e extras inclusos</li>
+                            <li>Valor da diária e taxas adicionais</li>
+                            <li>Valor total da estadia</li>
+                            <li>Formas de pagamento</li>
+                            <li>Informações importantes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Changelog Content -->
+            <div class="tab-content" id="changelog">
+                <div class="changelog-section">
+                    <h2>📝 Histórico de atualizações</h2>
+                </div>
+                
+                <div class="version-block latest">
+                    <div class="version-header">
+                        <h3>Versão 2.1</h3>
+                        <span class="version-date">SET2025</span>
+                        <span class="version-badge latest">Mais Recente</span>
+                    </div>
+                    <div class="version-content">
+                        <h4>🆕 Novas Funcionalidades</h4>
+                        <ul>
+                            <li><strong>Flexibilidade de Valores:</strong> Opção de informar valor da diária OU valor total</li>
+                            <li><strong>Campo de Informações Adicionais:</strong> Texto personalizado no orçamento</li>
+                            <li><strong>Validação Inteligente de Datas:</strong> Data de saída ajusta automaticamente</li>
+                            <li><strong>Página de Documentação:</strong> Sistema de ajuda e changelog</li>
+                        </ul>
+                        
+                        <h4>🔧 Melhorias</h4>
+                        <ul>
+                            <li>Correção automática de datas inválidas</li>
+                            <li>Interface aprimorada com radio buttons</li>
+                            <li>Cálculo automático da diária quando valor total é informado</li>
+                            <li>Validação robusta com modais informativos</li>
+                        </ul>
+                        
+                        <h4>🐛 Correções</h4>
+                        <ul>
+                            <li>Problema de datas com diferença de um dia resolvido</li>
+                            <li>Validação de data de saída anterior à entrada</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="version-block">
+                    <div class="version-header">
+                        <h3>Versão 2.0</h3>
+                        <span class="version-date">AGO2025</span>
+                        <span class="version-badge">Beta</span>
+                    </div>
+                    <div class="version-content">
+                        <h4>🎨 Redesign Completo</h4>
+                        <ul>
+                            <li><strong>Nova Interface:</strong> Design moderno e responsivo</li>
+                            <li><strong>Modo Escuro:</strong> Alternância automática e manual</li>
+                            <li><strong>Código Refatorado:</strong> Separação em arquivos HTML, CSS e JS</li>
+                            <li><strong>Documentação JSDoc:</strong> Código totalmente documentado</li>
+                        </ul>
+                        
+                        <h4>🆕 Funcionalidades</h4>
+                        <ul>
+                            <li><strong>Suporte a Pets:</strong> Campo para taxa de pets</li>
+                            <li><strong>Exclusão de Quartos Coletivos:</strong> Quando há pets ou crianças</li>
+                            <li><strong>Modais Customizados:</strong> Substituição de alert() e confirm()</li>
+                            <li><strong>Validação Aprimorada:</strong> Campos obrigatórios e formatação</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="version-block">
+                    <div class="version-header">
+                        <h3>Versão 1.0</h3>
+                        <span class="version-date">SET2024</span>
+                        <span class="version-badge">Inicial</span>
+                    </div>
+                    <div class="version-content">
+                        <h4>🚀 Lançamento Inicial</h4>
+                        <ul>
+                            <li><strong>Geração de Orçamentos:</strong> Sistema básico funcionando</li>
+                            <li><strong>Seleção de Quartos:</strong> Sugestões inteligentes</li>
+                            <li><strong>Cálculo de Diárias:</strong> Com extras e taxas</li>
+                            <li><strong>Formato WhatsApp:</strong> Markdown otimizado</li>
+                        </ul>
+                    </div>
+                </div>
+                <!--
+                <div class="future-section">
+                    <h3>🔮 Próximas Atualizações</h3>
+                    <div class="future-item">
+                        <h4>Versão 2.2 (Planejada)</h4>
+                        <ul>
+                            <li>Sistema de templates de orçamento</li>
+                            <li>Histórico de orçamentos gerados</li>
+                            <li>Exportação em PDF</li>
+                            <li>Calculadora de ocupação</li>
+                        </ul>
+                    </div>
+                </div>
+                -->
+            </div>
+        </div>
+        
+        <footer class="app-footer">
+            <p><a href="index.html" target="_top">Inicio</a> • <a href="help.html" target="_top">Sobre</a><br/>© 2025 - Versão 2.1 (versão beta)<br/>Desenvolvido com muito 🧠 por <a href="http://www.willdsg.com.br?rel=budgetghostel" target="_black">William Santana</a></p>
+        </footer>
+    </div>
+
+    <script src="help.js"></script>
+</body>
+</html>
