@@ -371,6 +371,34 @@ body.dark .security-notice span {
     color: #6ee7b7;
 }
 
+/* Warning Notice */
+.warning-notice {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: #fffbeb; /* Cor de fundo amarela clara */
+    border: 1px solid #fcd34d; /* Cor de borda amarela mais forte */
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+body.dark .warning-notice {
+    background: #b45309; /* Cor de fundo amarela escura para tema escuro */
+    border-color: #f59e0b; /* Cor de borda amarela mais forte para tema escuro */
+}
+
+.warning-notice span {
+    color: #92400e; /* Cor do texto amarela escura */
+    font-size: 12px;
+    font-weight: 500;
+}
+
+body.dark .warning-notice span {
+    color: #fef3c7; /* Cor do texto para tema escuro, mais clara */
+}
+
+
 /* Result Section */
 .result-section {
     display: none;
@@ -424,6 +452,73 @@ body.dark .markdown-output {
 }
 
 .copy-success.show {
+    opacity: 1;
+}
+
+/* Pagina Reveillon */
+.room-item {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+body.dark .room-item {
+    background: #334155;
+    border-color: #475569;
+}
+
+.room-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.room-header h4 {
+    color: #374151;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+body.dark .room-header h4 {
+    color: #e2e8f0;
+}
+
+.remove-room-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remove-room-btn:hover {
+    background: #dc2626;
+}
+
+#addRoomBtn {
+    margin-top: 12px;
+    margin-bottom: 0;
+}
+
+.room-item .conditional-field {
+    margin-left: 24px;
+    margin-top: 12px;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.room-item .conditional-field.active {
     opacity: 1;
 }
 
