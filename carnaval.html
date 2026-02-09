@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orçamento Carnaval 2026 - Gerador de Orçamento</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <svg class="light-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <circle cx="10" cy="10" r="3" stroke="#64748b" stroke-width="2" />
+                    <path
+                        d="M10 1v2m0 14v2M19 10h-2M5 10H3m13.66-5.66l-1.42 1.42M6.76 14.24l-1.42 1.42m11.32 0l-1.42-1.42M6.76 5.76L5.34 4.34"
+                        stroke="#64748b" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                <svg class="dark-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" style="display: none;">
+                    <path d="M19 12a8 8 0 01-11-11 8 8 0 1011 11z" stroke="#94a3b8" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+
+            <div class="login-header">
+                <div class="logo">
+                    <svg fill="#6366F1" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" width="36px" height="36px"
+                        viewBox="-23.11 -23.11 277.30 277.30" xml:space="preserve" stroke="#6366F1"
+                        stroke-width="0.9243080000000001">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC"
+                            stroke-width="0.46215400000000006"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <g>
+                                <g>
+                                    <path
+                                        d="M7.168,189.811h216.646c0.032,0,0.074,0,0.093,0c3.967,0,7.169-3.206,7.169-7.168c0-0.411-0.028-0.817-0.099-1.209 C230.353,120.757,182.688,71.169,122.8,67.41l0.149-7.437c8.284-3.059,14.244-10.963,14.244-20.302 c0-11.966-9.736-21.702-21.702-21.702c-11.967,0-21.702,9.736-21.702,21.702c0,9.544,6.237,17.583,14.815,20.479l-0.145,7.234 C48.041,71.036,0,121.321,0,182.643C0,186.604,3.211,189.811,7.168,189.811z M108.127,39.666c0-4.062,3.302-7.364,7.365-7.364 c4.061,0,7.364,3.302,7.364,7.364c0,4.063-3.304,7.37-7.364,7.37C111.429,47.036,108.127,43.733,108.127,39.666z M115.492,81.488 c53.368,0,97.215,41.537,100.902,93.986H14.591C18.276,123.024,62.124,81.488,115.492,81.488z">
+                                    </path>
+                                    <path
+                                        d="M128.933,94.922c-3.958,0-7.169,3.207-7.169,7.169s3.211,7.168,7.169,7.168c24.959,0,50.386,25.429,50.386,50.393 c0,3.958,3.211,7.169,7.168,7.169c3.958,0,7.169-3.211,7.169-7.169C193.646,126.376,162.19,94.922,128.933,94.922z">
+                                    </path>
+                                    <path
+                                        d="M7.168,213.108h216.646c3.957,0,7.168-3.206,7.168-7.168c0-3.963-3.211-7.169-7.168-7.169H7.168 c-3.958,0-7.168,3.206-7.168,7.169C0,209.902,3.211,213.108,7.168,213.108z">
+                                    </path>
+                                </g>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+                <h1>Orçamento Carnaval</h1>
+                <p>Pacotes especiais para a folia de 2026</p>
+            </div>
+
+            <form class="login-form" id="carnavalForm" novalidate>
+                <div class="warning-notice">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                    </svg>
+                    <span>Confira todos os valores antes de enviar. <strong>Sistema experimental para o Carnaval 2026</strong>.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="checkin">Data de Entrada</label>
+                    <input type="date" id="checkin" name="checkin" required min="2026-02-01" max="2026-02-25">
+                </div>
+
+                <div class="form-group">
+                    <label for="checkout">Data de Saída</label>
+                    <input type="date" id="checkout" name="checkout" required min="2026-02-04" max="2026-02-28">
+                </div>
+
+                <div class="form-group">
+                    <label>Quartos Selecionados</label>
+                    <div id="roomsContainer">
+                        <div class="room-item" data-room-index="0">
+                            <div class="room-header">
+                                <h4>Quarto 1</h4>
+                                <button type="button" class="remove-room-btn" onclick="removeRoom(0)"
+                                    style="display: none;">✕</button>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Tipo de Quarto</label>
+                                    <select class="room-type" required>
+                                        <option value="">Selecione...</option>
+                                        <option value="suite-casal-standard">Suíte casal standard</option>
+                                        <option value="suite-casal-master">Suíte casal master</option>
+                                        <option value="suite-tripla-master">Suíte tripla master</option>
+                                        <option value="suite-quadrupla-standard">Suíte quádrupla standard</option>
+                                        <option value="suite-quadrupla-master">Suíte quádrupla master</option>
+                                        <option value="suite-sextupla-master">Suíte sêxtupla master</option>
+                                        <option value="suite-coletiva">Leito na suíte coletiva</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Quantidade</label>
+                                    <input type="number" class="room-quantity" min="1" max="10" value="1" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Adultos</label>
+                                    <input type="number" class="room-adults" min="1" max="20" value="2" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Crianças Cortesia</label>
+                                    <input type="number" class="room-children" min="0" max="10" value="0">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="checkbox-wrapper">
+                                    <input type="checkbox" class="include-extra-bed">
+                                    <span class="checkmark"></span>
+                                    Incluir colchão extra
+                                </label>
+                                <div class="conditional-field extra-bed-field">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>Quantidade de Colchões</label>
+                                            <input type="number" class="extra-bed-quantity" min="1" max="5" value="1">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Valor do Colchão Extra por Diária (R$)</label>
+                                            <input type="number" class="extra-bed-price" step="0.01" min="0"
+                                                placeholder="30,00">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="checkbox-wrapper">
+                                    <input type="checkbox" class="include-pet">
+                                    <span class="checkmark"></span>
+                                    Incluir pet
+                                </label>
+                                <div class="conditional-field pet-field">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>Quantidade de Pets</label>
+                                            <input type="number" class="pet-quantity" min="1" max="5" value="1">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Valor da Diária por Pet (R$)</label>
+                                            <input type="number" class="pet-price" step="0.01" min="0"
+                                                placeholder="25,00">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="login-btn secondary" id="addRoomBtn">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M8 1v14m7-7H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                        Adicionar Quarto
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <label for="additionalInfo">Informações Adicionais (opcional)</label>
+                    <textarea id="additionalInfo" name="additionalInfo"
+                        placeholder="Digite informações adicionais que aparecerão no orçamento..." rows="3"></textarea>
+                </div>
+
+                <button type="button" class="login-btn" id="generateBtn">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M8 1v14m7-7H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                    Gerar Orçamento Carnaval
+                </button>
+
+                <button type="button" class="login-btn secondary" id="clearBtn">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M12 4L4 12m8 0L4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                    Limpar
+                </button>
+            </form>
+        </div>
+
+        <div class="login-card result-section" id="resultSection">
+            <h2 class="result-title">🎭 Orçamento Carnaval Gerado</h2>
+            <div class="markdown-output" id="markdownOutput"></div>
+            <button type="button" class="login-btn success" id="copyBtn">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M4 4h8v8H4V4z" stroke="currentColor" stroke-width="1.5" fill="none" />
+                    <path d="M2 2h8v2H2V2zm0 8h2v2H2v-2z" stroke="currentColor" stroke-width="1.5" fill="none" />
+                </svg>
+                Copiar para WhatsApp
+            </button>
+            <div class="copy-success" id="copySuccess">✅ Copiado para a área de transferência!</div>
+        </div>
+
+        <footer class="app-footer">
+            <p><a href="index.html" target="_top">Inicio</a> • <a href="carnaval.html" target="_top">Carnaval</a> • <a href="help.html" target="_top">Sobre</a><br/>© 2026 - Versão Carnaval<br/>Desenvolvido com muito 🧠 por <a href="http://www.willdsg.com.br?rel=budgetghostel" target="_black">William Santana</a></p>
+        </footer>
+    </div>
+
+    <script src="carnaval.js"></script>
+</body>
+
+</html>
