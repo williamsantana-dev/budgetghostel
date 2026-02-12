@@ -6,6 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orçamento Carnaval 2026 - Gerador de Orçamento</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilo extra para os 3 campos de desconto ficarem alinhados */
+        .discount-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+        @media (max-width: 480px) {
+            .discount-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -160,6 +173,30 @@
                         </svg>
                         Adicionar Quarto
                     </button>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="applyDiscount">
+                        <span class="checkmark"></span>
+                        Aplicar Desconto
+                    </label>
+                    <div class="conditional-field" id="discountField">
+                        <div class="discount-grid">
+                            <div class="form-group">
+                                <label>Desc. em R$</label>
+                                <input type="number" id="discountValue" step="0.01" min="0" placeholder="R$ 0,00">
+                            </div>
+                            <div class="form-group">
+                                <label>Desc. em %</label>
+                                <input type="number" id="discountPercent" step="0.1" min="0" max="100" placeholder="0%">
+                            </div>
+                            <div class="form-group">
+                                <label>Total Final (R$)</label>
+                                <input type="number" id="discountTotalFinal" step="0.01" min="0" placeholder="Total">
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
