@@ -1,6 +1,7 @@
 /**
  * Gerador de Orçamento Carnaval 2026 - Pousada
  * Adaptado do sistema de Réveillon para o período de 13/02/2026 a 18/02/2026
+ * Com funcionalidade de Desconto
  */
 
 class CarnavalBudgetGenerator {
@@ -16,7 +17,6 @@ class CarnavalBudgetGenerator {
         ];
         
         // Tabela de VALORES DA DIÁRIA do Carnaval (13/02/2026 a 18/02/2026)
-        // Estrutura: { tipo_quarto: { quantidade_noites: valor_diaria } }
         this.carnavalDailyRates = {
             'suite-casal-standard': { 3: 517, 4: 501, 5: 470 },
             'suite-casal-master': { 3: 548, 4: 531, 5: 498 },
@@ -27,8 +27,7 @@ class CarnavalBudgetGenerator {
             'suite-coletiva': { 3: 207, 4: 201, 5: 188 }
         };
         
-        // Preços Fora do Pacote (Antes de 13/02 ou Depois de 18/02)
-        // Baseado na tabela "A partir de 5 diárias" fornecida para fora da data
+        // Preços Fora do Pacote
         this.standardDailyRates = {
             'suite-casal-standard': 245,
             'suite-casal-master': 263,
@@ -56,7 +55,6 @@ class CarnavalBudgetGenerator {
      * Define as datas padrão para o Carnaval 2026
      */
     setDefaultDates() {
-        // Sexta de carnaval até quarta de cinzas
         document.getElementById('checkin').value = '2026-02-13';
         document.getElementById('checkout').value = '2026-02-18';
     }
@@ -73,8 +71,56 @@ class CarnavalBudgetGenerator {
         document.getElementById('checkin').addEventListener('change', () => this.handleCheckinChange());
         document.getElementById('checkout').addEventListener('change', () => this.handleCheckoutChange());
     
+        // Configura inputs de desconto
+        this.setupDiscountInputs();
+
         // Setup conditional fields for the first room
         this.setupRoomConditionalFields(document.querySelector('.room-item'));
+    }
+
+    /**
+     * Configura a lógica dos campos de desconto
+     */
+    setupDiscountInputs() {
+        const discountCheckbox = document.getElementById('applyDiscount');
+        const discountField = document.getElementById('discountField');
+        
+        const discValue = document.getElementById('discountValue');
+        const discPercent = document.getElementById('discountPercent');
+        const discTotalFinal = document.getElementById('discountTotalFinal');
+
+        // Toggle visibilidade
+        discountCheckbox.addEventListener('change', () => {
+            discountField.classList.toggle('active', discountCheckbox.checked);
+            if (!discountCheckbox.checked) {
+                // Limpar campos se desmarcar
+                discValue.value = '';
+                discPercent.value = '';
+                discTotalFinal.value = '';
+            }
+        });
+
+        // Lógica de exclusividade (preenche um, limpa os outros)
+        discValue.addEventListener('input', () => {
+            if (discValue.value) {
+                discPercent.value = '';
+                discTotalFinal.value = '';
+            }
+        });
+
+        discPercent.addEventListener('input', () => {
+            if (discPercent.value) {
+                discValue.value = '';
+                discTotalFinal.value = '';
+            }
+        });
+
+        discTotalFinal.addEventListener('input', () => {
+            if (discTotalFinal.value) {
+                discValue.value = '';
+                discPercent.value = '';
+            }
+        });
     }
     
     /**
@@ -95,13 +141,11 @@ class CarnavalBudgetGenerator {
         });
     }
     
-    /**
-     * Adiciona um novo quarto
-     */
+    // ... (Métodos addRoom, removeRoom, updateRemoveButtons, updateRoomNumbers permanecem iguais)
+    // Para economizar espaço, mantive a lógica idêntica à anterior para estas funções auxiliares:
     addRoom() {
         const container = document.getElementById('roomsContainer');
         const roomIndex = this.roomCounter++;
-        
         const roomDiv = document.createElement('div');
         roomDiv.className = 'room-item';
         roomDiv.setAttribute('data-room-index', roomIndex);
@@ -140,7 +184,6 @@ class CarnavalBudgetGenerator {
                     <input type="number" class="room-children" min="0" max="10" value="0">
                 </div>
             </div>
-            
             <div class="form-group">
                 <label class="checkbox-wrapper">
                     <input type="checkbox" class="include-extra-bed">
@@ -160,7 +203,6 @@ class CarnavalBudgetGenerator {
                     </div>
                 </div>
             </div>
-    
             <div class="form-group">
                 <label class="checkbox-wrapper">
                     <input type="checkbox" class="include-pet">
@@ -181,15 +223,11 @@ class CarnavalBudgetGenerator {
                 </div>
             </div>
         `;
-        
         container.appendChild(roomDiv);
         this.setupRoomConditionalFields(roomDiv);
         this.updateRemoveButtons();
     }
     
-    /**
-     * Remove um quarto
-     */
     removeRoom(roomIndex) {
         const roomElement = document.querySelector(`[data-room-index="${roomIndex}"]`);
         if (roomElement) {
@@ -199,9 +237,6 @@ class CarnavalBudgetGenerator {
         }
     }
     
-    /**
-     * Atualiza a visibilidade dos botões de remover
-     */
     updateRemoveButtons() {
         const roomItems = document.querySelectorAll('.room-item');
         roomItems.forEach((item, index) => {
@@ -214,9 +249,6 @@ class CarnavalBudgetGenerator {
         });
     }
     
-    /**
-     * Atualiza os números dos quartos
-     */
     updateRoomNumbers() {
         const roomItems = document.querySelectorAll('.room-item');
         roomItems.forEach((item, index) => {
@@ -224,34 +256,25 @@ class CarnavalBudgetGenerator {
             header.textContent = `Quarto ${index + 1}`;
         });
     }
-    
-    /**
-     * Manipula mudança na data de entrada
-     */
+    // ... Fim dos métodos auxiliares de UI
+
     handleCheckinChange() {
         const checkinDate = new Date(document.getElementById('checkin').value);
         const checkoutInput = document.getElementById('checkout');
-        
         if (checkinDate) {
             const minCheckout = new Date(checkinDate);
             minCheckout.setDate(minCheckout.getDate() + 3);
-            
             const currentCheckout = new Date(checkoutInput.value);
             if (!currentCheckout || currentCheckout < minCheckout) {
                 checkoutInput.valueAsDate = minCheckout;
             }
-            
             checkoutInput.min = minCheckout.toISOString().split('T')[0];
         }
     }
     
-    /**
-     * Manipula mudança na data de saída
-     */
     handleCheckoutChange() {
         const checkinDate = new Date(document.getElementById('checkin').value);
         const checkoutDate = new Date(document.getElementById('checkout').value);
-        
         if (checkinDate && checkoutDate) {
             const nights = this.calculateNights();
             if (nights < 3) {
@@ -263,28 +286,21 @@ class CarnavalBudgetGenerator {
         }
     }
     
-    /**
-     * Configura o toggle de tema dark/light
-     */
     setupThemeToggle() {
         const themeToggle = document.getElementById('themeToggle');
         const lightIcon = themeToggle.querySelector('.light-icon');
         const darkIcon = themeToggle.querySelector('.dark-icon');
-        
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             document.body.classList.add('dark');
             lightIcon.style.display = 'none';
             darkIcon.style.display = 'block';
         }
-        
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('dark');
             const isDark = document.body.classList.contains('dark');
-            
             lightIcon.style.display = isDark ? 'none' : 'block';
             darkIcon.style.display = isDark ? 'block' : 'none';
         });
-        
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
             if (!document.body.classList.contains('dark') && !document.body.classList.contains('light')) {
                 if (event.matches) {
@@ -300,24 +316,16 @@ class CarnavalBudgetGenerator {
         });
     }
     
-    /**
-     * Calcula o número de noites entre as datas
-     */
     calculateNights() {
         const checkin = new Date(document.getElementById('checkin').value);
         const checkout = new Date(document.getElementById('checkout').value);
-        
         if (!checkin || !checkout || checkout <= checkin) {
             return 0;
         }
-        
         const diffTime = Math.abs(checkout - checkin);
         return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     }
     
-    /**
-     * Calcula o preço total baseado no período e tipo de quarto
-     */
     calculateTotalPrice(roomId, checkinDate, checkoutDate) {
         const totalNights = this.calculateNights();
         let totalPrice = 0;
@@ -325,41 +333,24 @@ class CarnavalBudgetGenerator {
         let originalDailyRate = null;
         let hasCarnavalPeriod = false;
         
-        // Define o intervalo do Carnaval
         const carnavalStart = new Date('2026-02-13');
         const carnavalEnd = new Date('2026-02-18');
-        
-        // Verifica se a estadia intersecta com o período principal do carnaval
-        // Se a data de entrada for antes do fim do carnaval E a data de saída for depois do inicio do carnaval
         let intersectsCarnaval = (checkinDate < carnavalEnd && checkoutDate > carnavalStart);
         
         if (intersectsCarnaval) {
             hasCarnavalPeriod = true;
             const rates = this.carnavalDailyRates[roomId];
             
-            // Lógica de Pacotes de Carnaval
-            // O código original usava preço total. Aqui usamos Diária x Noites.
-            
             if (totalNights <= 5 && rates[totalNights]) {
-                // Pacote exato de 3, 4 ou 5 diárias
                 totalPrice = rates[totalNights] * totalNights;
-                
-                // Simulação de "preço original" para mostrar desconto (lógica herdada do reveillon)
                 if (totalNights > 3 && rates[3]) {
-                    // Se for mais de 3 dias, mostra comparativo com a diária de 3 dias
                     originalDailyRate = rates[3];
                 }
             } else if (totalNights > 5) {
-                // Mais de 5 diárias: Pacote de 5 dias + dias extras
-                // Dias extras são cobrados conforme tabela padrão (standardDailyRates)
-                // OU dias extras proporcionais? O prompt diz para usar preços específicos fora do range 13-18.
-                
-                // Vamos calcular dia a dia para ser preciso
                 let currentDate = new Date(checkinDate);
                 let tempTotal = 0;
                 let carnavalDaysCount = 0;
                 
-                // Primeiro pass: contar quantos dias caem DENTRO do intervalo de carnaval
                 while (currentDate < checkoutDate) {
                     if (currentDate >= carnavalStart && currentDate < carnavalEnd) {
                         carnavalDaysCount++;
@@ -367,37 +358,23 @@ class CarnavalBudgetGenerator {
                     currentDate.setDate(currentDate.getDate() + 1);
                 }
                 
-                // Reiniciar data para calculo de preço
                 currentDate = new Date(checkinDate);
-                
-                // Se ficar o período todo do carnaval (5 dias ou mais dentro do range), usa a tarifa de 5 dias
-                // Se ficar menos dias dentro do range (ex: chegou dia 17), usa tarifa proporcional
                 const carnavalBaseRate = (carnavalDaysCount >= 5) ? rates[5] : (rates[carnavalDaysCount] || rates[5]); 
-                
-                // Definir originalDailyRate para visualização
                 originalDailyRate = rates[3];
     
                 while (currentDate < checkoutDate) {
                     if (currentDate >= carnavalStart && currentDate < carnavalEnd) {
-                        // Dia de Carnaval
                         tempTotal += carnavalBaseRate;
                     } else {
-                        // Dia fora do Carnaval
                         tempTotal += this.standardDailyRates[roomId];
                     }
                     currentDate.setDate(currentDate.getDate() + 1);
                 }
-                
                 totalPrice = tempTotal;
-                
             } else {
-                // Menos de 3 diárias no carnaval (caso raro se o sistema bloquear, mas por segurança)
-                // Usa a tarifa de 3 diárias pro-rata
                 totalPrice = (rates[3] || 600) * totalNights;
             }
-            
         } else {
-            // Período totalmente fora do Carnaval (Antes de 13/02 ou Depois de 18/02)
             totalPrice = this.standardDailyRates[roomId] * totalNights;
         }
         
@@ -415,25 +392,16 @@ class CarnavalBudgetGenerator {
         };
     }
     
-    /**
-     * Formata a data para DD/MM
-     */
     formatDate(dateString) {
         if (!dateString) return '00/00';
         const [year, month, day] = dateString.split('-');
         return `${day}/${month}`;
     }
     
-    /**
-     * Formata valor monetário com separador de milhares
-     */
     formatCurrency(value) {
         return value.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     }
     
-    /**
-     * Exibe modal customizado
-     */
     showCustomModal(message, isConfirm = false) {
         return new Promise((resolve) => {
             const modal = document.createElement('div');
@@ -449,7 +417,6 @@ class CarnavalBudgetGenerator {
                 justify-content: center;
                 z-index: 1000;
             `;
-            
             const modalContent = document.createElement('div');
             modalContent.style.cssText = `
                 background: white;
@@ -460,12 +427,10 @@ class CarnavalBudgetGenerator {
                 width: 90%;
                 margin: 0 20px;
             `;
-            
             if (document.body.classList.contains('dark')) {
                 modalContent.style.background = '#1e293b';
                 modalContent.style.color = '#f8fafc';
             }
-            
             modalContent.innerHTML = `
                 <p style="margin-bottom: 20px; line-height: 1.5; color: inherit;">${message}</p>
                 <div style="display: flex; justify-content: flex-end; gap: 12px;">
@@ -473,25 +438,20 @@ class CarnavalBudgetGenerator {
                     <button class="confirm-btn" style="padding: 8px 16px; background: #6366F1; color: white; border: none; border-radius: 6px; cursor: pointer;">${isConfirm ? 'Confirmar' : 'OK'}</button>
                 </div>
             `;
-            
             modal.appendChild(modalContent);
             document.body.appendChild(modal);
-            
             const confirmBtn = modalContent.querySelector('.confirm-btn');
             const cancelBtn = modalContent.querySelector('.cancel-btn');
-            
             confirmBtn.addEventListener('click', () => {
                 document.body.removeChild(modal);
                 resolve(true);
             });
-            
             if (cancelBtn) {
                 cancelBtn.addEventListener('click', () => {
                     document.body.removeChild(modal);
                     resolve(false);
                 });
             }
-            
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
                     document.body.removeChild(modal);
@@ -501,9 +461,6 @@ class CarnavalBudgetGenerator {
         });
     }
     
-    /**
-     * Gera o orçamento
-     */
     async generateBudget() {
         const roomItems = document.querySelectorAll('.room-item');
         if (roomItems.length === 0) {
@@ -511,12 +468,10 @@ class CarnavalBudgetGenerator {
             return;
         }
         
-        // Validar se todos os quartos estão preenchidos
         let hasErrors = false;
         roomItems.forEach(item => {
             const roomType = item.querySelector('.room-type').value;
             const roomAdults = item.querySelector('.room-adults').value;
-            
             if (!roomType || !roomAdults || parseInt(roomAdults) < 1) {
                 hasErrors = true;
             }
@@ -529,7 +484,6 @@ class CarnavalBudgetGenerator {
         
         const checkin = document.getElementById('checkin').value;
         const checkout = document.getElementById('checkout').value;
-        
         if (!checkin || !checkout) {
             await this.showCustomModal('Preencha as datas de entrada e saída.');
             return;
@@ -549,9 +503,6 @@ class CarnavalBudgetGenerator {
         document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
     }
     
-    /**
-     * Obtém dados do formulário
-     */
     getFormData() {
         const checkinDate = new Date(document.getElementById('checkin').value);
         const checkoutDate = new Date(document.getElementById('checkout').value);
@@ -569,12 +520,10 @@ class CarnavalBudgetGenerator {
             const adults = parseInt(item.querySelector('.room-adults').value) || 0;
             const children = parseInt(item.querySelector('.room-children').value) || 0;
             
-            // Colchão extra
             const includeExtraBed = item.querySelector('.include-extra-bed').checked;
             const extraBedQuantity = parseInt(item.querySelector('.extra-bed-quantity').value) || 0;
             const extraBedPrice = parseFloat(item.querySelector('.extra-bed-price').value) || 0;
             
-            // Pet
             const includePet = item.querySelector('.include-pet').checked;
             const petQuantity = parseInt(item.querySelector('.pet-quantity').value) || 0;
             const petPrice = parseFloat(item.querySelector('.pet-price').value) || 0;
@@ -582,18 +531,13 @@ class CarnavalBudgetGenerator {
             const roomName = this.rooms.find(r => r.id === roomType)?.name || '';
             const roomPrice = this.calculateTotalPrice(roomType, checkinDate, checkoutDate);
             
-            // Calcular total do quarto incluindo extras
             let roomTotal = roomPrice.total * quantity;
-            
-            // Para leito coletivo: multiplicar pelo número de adultos (1 leito = 1 pessoa)
             if (roomType === 'suite-coletiva') {
                 roomTotal = roomPrice.total * quantity * adults;
             }
-            
             if (includeExtraBed && extraBedPrice > 0) {
                 roomTotal += extraBedQuantity * extraBedPrice * nights * quantity;
             }
-            
             if (includePet && petPrice > 0) {
                 roomTotal += petQuantity * petPrice * nights * quantity;
             }
@@ -618,6 +562,34 @@ class CarnavalBudgetGenerator {
                 petPrice: petPrice
             });
         });
+
+        // Lógica de cálculo do Desconto
+        const applyDiscount = document.getElementById('applyDiscount').checked;
+        const discValue = parseFloat(document.getElementById('discountValue').value) || 0;
+        const discPercent = parseFloat(document.getElementById('discountPercent').value) || 0;
+        const discTotalFinal = parseFloat(document.getElementById('discountTotalFinal').value) || 0;
+
+        let finalDiscountedTotal = grandTotal;
+        let hasDiscount = false;
+
+        if (applyDiscount) {
+            if (discTotalFinal > 0) {
+                // Se foi setado o valor final direto
+                finalDiscountedTotal = discTotalFinal;
+                hasDiscount = true;
+            } else if (discValue > 0) {
+                // Desconto em reais
+                finalDiscountedTotal = grandTotal - discValue;
+                hasDiscount = true;
+            } else if (discPercent > 0) {
+                // Desconto em %
+                finalDiscountedTotal = grandTotal - (grandTotal * (discPercent / 100));
+                hasDiscount = true;
+            }
+            
+            // Segurança para não negativar
+            if (finalDiscountedTotal < 0) finalDiscountedTotal = 0;
+        }
         
         return {
             checkin: document.getElementById('checkin').value,
@@ -627,24 +599,21 @@ class CarnavalBudgetGenerator {
             totalPeople: totalPeople,
             totalChildren: totalChildren,
             grandTotal: grandTotal,
+            finalDiscountedTotal: finalDiscountedTotal,
+            hasDiscount: hasDiscount,
             additionalInfo: document.getElementById('additionalInfo').value || ''
         };
     }
     
-    /**
-     * Constrói o markdown do orçamento
-     */
     buildMarkdown(data) {
         let markdown = '🎭 *ORÇAMENTO ESPECIAL CARNAVAL* 🎭\n\n';
         
-        // Cabeçalho
         markdown += `🗓 *Check-in:* ${this.formatDate(data.checkin)}, a partir das 14h\n`;
         markdown += `🗓 *Check-out:* ${this.formatDate(data.checkout)}, até às 12h\n`;
         
         const nightText = data.nights === 1 ? 'diária' : 'diárias';
         markdown += `⏳ *Período:* ${String(data.nights).padStart(2, '0')} ${nightText}\n`;
         
-        // Verificar se tem período especial
         const hasSpecialPeriod = data.rooms.some(room => room.price.isSpecialPeriod);
         if (hasSpecialPeriod) {
             markdown += '_Durante o período do carnaval, estamos reservando a partir de 03 diárias._\n\n';
@@ -652,11 +621,9 @@ class CarnavalBudgetGenerator {
             markdown += '\n';
         }
         
-        // Blocos de quartos
         const hasMultipleBlocks = data.rooms.length > 1;
         
         data.rooms.forEach(room => {
-            // Mostrar "1x" sempre que há múltiplos blocos
             const quantityText = (hasMultipleBlocks || room.quantity > 1) ? `${room.quantity}x ` : '';
             markdown += `🏡 *${quantityText}${room.name}*\n`;
             
@@ -665,21 +632,17 @@ class CarnavalBudgetGenerator {
                 const childText = room.children === 1 ? 'criança cortesia' : 'crianças cortesia';
                 capacityText += ` e ${String(room.children).padStart(2, '0')} ${childText}`;
             }
-            
-            // Adicionar extras na capacidade
             if (room.includeExtraBed && room.extraBedQuantity > 0) {
                 const bedText = room.extraBedQuantity === 1 ? 'colchão extra' : 'colchões extras';
                 capacityText += `, incluso ${room.extraBedQuantity} ${bedText}`;
             }
-            
             if (room.includePet && room.petQuantity > 0) {
                 const petText = room.petQuantity === 1 ? 'pet' : 'pets';
                 capacityText += `, ${room.petQuantity} ${petText}`;
             }
-            
             markdown += `👥 *Capacidade:* ${capacityText}.\n`;
             
-            // Linha da diária
+            // Linha da diária (exibição padrão)
             if (room.price.isSpecialPeriod && room.price.originalDailyRate && room.price.dailyRate < room.price.originalDailyRate) {
                 const fullDailyRate = this.formatCurrency(room.price.originalDailyRate);
                 const discountDailyRate = this.formatCurrency(room.price.dailyRate);
@@ -689,17 +652,14 @@ class CarnavalBudgetGenerator {
                 markdown += `💰 *Diária:* R$ ${dailyRate}\n`;
             }
             
-            // Taxa de colchão extra (se houver)
             if (room.includeExtraBed && room.extraBedPrice > 0) {
                 markdown += `🛏️ *Colchão extra:* R$ ${this.formatCurrency(room.extraBedPrice)} a diária\n`;
             }
-            
-            // Taxa de pet (se houver)
             if (room.includePet && room.petPrice > 0) {
                 markdown += `🐶 *Taxa pet:* R$ ${this.formatCurrency(room.petPrice)} a diária por pet\n`;
             }
             
-            // Total do quarto
+            // Total do quarto com lógica de desconto (se for quarto único)
             const nightTotalText = data.nights === 1 ? 'noite' : 'noites';
             let roomPeopleText = `${String(room.adults).padStart(2, '0')} pessoas`;
             if (room.children > 0) {
@@ -711,14 +671,27 @@ class CarnavalBudgetGenerator {
                 roomPeopleText += ` e ${room.petQuantity} ${petText}`;
             }
             
-            markdown += `💵 Total pacote (${String(data.nights).padStart(2, '0')} ${nightTotalText}): R$ ${this.formatCurrency(room.total)} para ${roomPeopleText}.\n\n`;
+            // SE houver apenas 1 bloco de quarto E houver desconto, aplica o tachado aqui
+            if (!hasMultipleBlocks && data.hasDiscount) {
+                markdown += `💵 *Total pacote (${String(data.nights).padStart(2, '0')} ${nightTotalText}):* ~R$ ${this.formatCurrency(room.total)}~ para ${roomPeopleText}.\n`;
+                markdown += `💵 *Preço com desconto exclusivo para você:* R$ ${this.formatCurrency(data.finalDiscountedTotal)}.\n\n`;
+            } else {
+                // Sem desconto ou múltiplos blocos (o desconto vai no final)
+                markdown += `💵 Total pacote (${String(data.nights).padStart(2, '0')} ${nightTotalText}): R$ ${this.formatCurrency(room.total)} para ${roomPeopleText}.\n\n`;
+            }
         });
         
         // Total geral (só se houver múltiplos quartos)
         if (hasMultipleBlocks) {
             const totalRooms = data.rooms.reduce((sum, room) => sum + room.quantity, 0);
             const roomText = totalRooms === 1 ? 'quarto' : 'quartos';
-            markdown += `Valor total dos ${totalRooms} ${roomText} *R$ ${this.formatCurrency(data.grandTotal)}*.\n\n`;
+            
+            if (data.hasDiscount) {
+                 markdown += `Valor total dos ${totalRooms} ${roomText}: ~R$ ${this.formatCurrency(data.grandTotal)}~.\n`;
+                 markdown += `💵 *Preço com desconto exclusivo para você:* R$ ${this.formatCurrency(data.finalDiscountedTotal)}.\n\n`;
+            } else {
+                markdown += `Valor total dos ${totalRooms} ${roomText} *R$ ${this.formatCurrency(data.grandTotal)}*.\n\n`;
+            }
         }
         
         // Informações da pousada
@@ -736,12 +709,10 @@ class CarnavalBudgetGenerator {
         markdown += 'Até 5x sem juros (parcela mínima de R$ 200,00)\n';
         markdown += 'Até 10x com condição especial para parcelamento (disponível para valores acima de R$ 1.500,00)\n\n';
         
-        // Informações adicionais
         if (data.additionalInfo.trim()) {
             markdown += `${data.additionalInfo.trim()}\n\n`;
         }
         
-        // Fechamento
         markdown += '⚠ *Orçamento válido por 24h*.\n\n';
         markdown += 'As vagas para o Carnaval são limitadas e a procura é alta.\n';
         markdown += 'Garanta já sua reserva e venha curtir a folia com conforto! 🎉\n\n';
@@ -750,12 +721,8 @@ class CarnavalBudgetGenerator {
         return markdown;
     }
     
-    /**
-     * Copia o orçamento para a área de transferência
-     */
     async copyToClipboard() {
         const markdownText = document.getElementById('markdownOutput').textContent;
-        
         try {
             await navigator.clipboard.writeText(markdownText);
             const successMsg = document.getElementById('copySuccess');
@@ -768,28 +735,20 @@ class CarnavalBudgetGenerator {
             textArea.select();
             document.execCommand('copy');
             document.body.removeChild(textArea);
-            
             const successMsg = document.getElementById('copySuccess');
             successMsg.classList.add('show');
             setTimeout(() => successMsg.classList.remove('show'), 3000);
         }
     }
     
-    /**
-     * Limpa o formulário
-     */
     async clearForm() {
         const confirmed = await this.showCustomModal('Tem certeza que deseja limpar todos os campos?', true);
-        
         if (confirmed) {
-            // Remove quartos extras
             const roomsContainer = document.getElementById('roomsContainer');
             const roomItems = roomsContainer.querySelectorAll('.room-item');
             for (let i = roomItems.length - 1; i > 0; i--) {
                 roomItems[i].remove();
             }
-            
-            // Reset primeiro quarto
             const firstRoom = roomItems[0];
             firstRoom.querySelector('.room-type').value = '';
             firstRoom.querySelector('.room-quantity').value = '1';
@@ -800,10 +759,11 @@ class CarnavalBudgetGenerator {
             firstRoom.querySelector('.include-pet').checked = false;
             firstRoom.querySelector('.pet-field').classList.remove('active');
             
-            // Reset outros campos
             document.getElementById('carnavalForm').reset();
-            document.getElementById('resultSection').classList.remove('show');
+            // Limpa visualmente o campo de desconto condicional
+            document.getElementById('discountField').classList.remove('active');
             
+            document.getElementById('resultSection').classList.remove('show');
             this.setDefaultDates();
             this.roomCounter = 1;
             this.updateRemoveButtons();
@@ -811,7 +771,6 @@ class CarnavalBudgetGenerator {
     }
 }
 
-// Função global para remover quartos
 function removeRoom(roomIndex) {
     const generator = window.budgetGenerator;
     if (generator) {
@@ -819,7 +778,6 @@ function removeRoom(roomIndex) {
     }
 }
 
-// Inicialização da aplicação
 document.addEventListener('DOMContentLoaded', () => {
     window.budgetGenerator = new CarnavalBudgetGenerator();
 });
