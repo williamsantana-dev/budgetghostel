@@ -19,7 +19,6 @@
                 </svg>
             </button>
             
-            <!-- Navigation -->
             <div class="navigation">
                 <a href="index.html" class="nav-btn secondary">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -37,13 +36,11 @@
                 <p>Documentação e histórico de atualizações</p>
             </div>
             
-            <!-- Tabs -->
             <div class="tabs">
                 <button class="tab-btn active" data-tab="help">📖 Como Usar</button>
                 <button class="tab-btn" data-tab="changelog">📝 Changelog</button>
             </div>
             
-            <!-- Help Content -->
             <div class="tab-content active" id="help">
                 <div class="help-section">
                     <h2>🚀 Como Usar o Sistema</h2>
@@ -134,18 +131,46 @@
                 </div>
             </div>
             
-            <!-- Changelog Content -->
             <div class="tab-content" id="changelog">
                 <div class="changelog-section">
                     <h2>📝 Histórico de atualizações</h2>
                 </div>
 
-                
                 <div class="version-block latest">
+                    <div class="version-header">
+                        <h3>Versão 3.0</h3>
+                        <span class="version-date">FEV2026</span>
+                        <span class="version-badge latest">Mais Recente</span>
+                    </div>
+                    <div class="version-content">
+                        <h4>🎭 Novo Módulo: Carnaval 2026</h4>
+                        <ul>
+                            <li><strong>Calendário Exclusivo:</strong> Sistema adaptado para o período de 13/02/2026 a 18/02/2026.</li>
+                            <li><strong>Cálculo Inteligente de Diárias:</strong> Diferenciação automática entre valores de pacote (3, 4, 5 dias) e diárias "fora de época".</li>
+                            <li><strong>Regra de Negócio:</strong> Bloqueio automático para o mínimo de 3 diárias obrigatórias no período.</li>
+                        </ul>
+
+                        <h4>🏷️ Sistema de Descontos e Negociação</h4>
+                        <ul>
+                            <li><strong>Três Modalidades:</strong> Aplique descontos via Valor Fixo (R$), Porcentagem (%) ou defina um Valor Total Final.</li>
+                            <li><strong>Campos Exclusivos:</strong> Lógica de input que impede conflitos (ao digitar %, limpa o valor em R$ e vice-versa).</li>
+                            <li><strong>Visual Promocional:</strong> O Markdown gerado risca o valor original (ex: ~R$ 1.500,00~) e destaca o preço com "Desconto Exclusivo".</li>
+                        </ul>
+
+                        <h4>🔧 Ajustes Técnicos</h4>
+                        <ul>
+                            <li><strong>Atualização Visual:</strong> Adaptação de textos e ícones para a temática de Carnaval.</li>
+                            <li><strong>Correção de Fluxo:</strong> Melhoria na lógica de datas mistas (dias dentro + dias fora do pacote).</li>
+                            <li><strong>Markdown Otimizado:</strong> Melhorias na quebra de linha e apresentação dos totais tachados.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="version-block">
                     <div class="version-header">
                         <h3>Versão 2.5</h3>
                         <span class="version-date">SET2025</span>
-                        <span class="version-badge latest">Mais Recente</span>
+                        <span class="version-badge">Estável</span>
                     </div>
                     <div class="version-content">
                         <h4>🎆 Nova Funcionalidade: Sistema de Réveillon</h4>
@@ -179,14 +204,6 @@
                             <li><strong>Template Réveillon:</strong> Formato especial "ORÇAMENTO ESPECIAL RÉVEILLON" com emojis</li>
                             <li><strong>Formatação "1x":</strong> Indicação clara de quantidade quando há múltiplos blocos</li>
                         </ul>
-
-                        <h4>🔧 Melhorias Técnicas</h4>
-                        <ul>
-                            <li><strong>Arquitetura Modular:</strong> Classe ReveillonBudgetGenerator independente</li>
-                            <li><strong>Validação Robusta:</strong> Controle de datas, períodos mínimos e campos obrigatórios</li>
-                            <li><strong>Interface Dinâmica:</strong> Adicionar/remover quartos com botões intuitivos</li>
-                            <li><strong>Responsividade:</strong> Layout adaptado para múltiplos quartos em mobile</li>
-                        </ul>
                     </div>
                 </div>
 
@@ -212,12 +229,6 @@
                             <li>Cálculo automático da diária quando valor total é informado</li>
                             <li>Validação robusta com modais informativos</li>
                         </ul>
-                        
-                        <h4>🐛 Correções</h4>
-                        <ul>
-                            <li>Problema de datas com diferença de um dia resolvido</li>
-                            <li>Validação de data de saída anterior à entrada</li>
-                        </ul>
                     </div>
                 </div>
                 
@@ -232,16 +243,12 @@
                         <ul>
                             <li><strong>Nova Interface:</strong> Design moderno e responsivo</li>
                             <li><strong>Modo Escuro:</strong> Alternância automática e manual</li>
-                            <li><strong>Código Refatorado:</strong> Separação em arquivos HTML, CSS e JS</li>
-                            <li><strong>Documentação JSDoc:</strong> Código totalmente documentado</li>
                         </ul>
                         
                         <h4>🆕 Funcionalidades</h4>
                         <ul>
                             <li><strong>Suporte a Pets:</strong> Campo para taxa de pets</li>
                             <li><strong>Exclusão de Quartos Coletivos:</strong> Quando há pets ou crianças</li>
-                            <li><strong>Modais Customizados:</strong> Substituição de alert() e confirm()</li>
-                            <li><strong>Validação Aprimorada:</strong> Campos obrigatórios e formatação</li>
                         </ul>
                     </div>
                 </div>
@@ -256,31 +263,15 @@
                         <h4>🚀 Lançamento Inicial</h4>
                         <ul>
                             <li><strong>Geração de Orçamentos:</strong> Sistema básico funcionando</li>
-                            <li><strong>Seleção de Quartos:</strong> Sugestões inteligentes</li>
-                            <li><strong>Cálculo de Diárias:</strong> Com extras e taxas</li>
                             <li><strong>Formato WhatsApp:</strong> Markdown otimizado</li>
                         </ul>
                     </div>
                 </div>
-                <!--
-                <div class="future-section">
-                    <h3>🔮 Próximas Atualizações</h3>
-                    <div class="future-item">
-                        <h4>Versão 2.2 (Planejada)</h4>
-                        <ul>
-                            <li>Sistema de templates de orçamento</li>
-                            <li>Histórico de orçamentos gerados</li>
-                            <li>Exportação em PDF</li>
-                            <li>Calculadora de ocupação</li>
-                        </ul>
-                    </div>
-                </div>
-                -->
             </div>
         </div>
         
         <footer class="app-footer">
-            <p><a href="index.html" target="_top">Inicio</a> • <a href="reveillon.html" target="_top">Réveillon</a> • <a href="help.html" target="_top">Sobre</a><br/>© 2025 - Versão 2.5 (versão beta)<br/>Desenvolvido com muito 🧠 por <a href="http://www.willdsg.com.br?rel=budgetghostel" target="_black">William Santana</a></p>
+            <p><a href="index.html" target="_top">Inicio</a> • <a href="carnaval.html" target="_top">Carnaval</a> • <a href="reveillon.html" target="_top">Réveillon</a> • <a href="help.html" target="_top">Sobre</a><br/>© 2026 - Versão 3.0 (versão beta)<br/>Desenvolvido com muito 🧠 por <a href="http://www.willdsg.com.br?rel=budgetghostel" target="_black">William Santana</a></p>
         </footer>
     </div>
 
